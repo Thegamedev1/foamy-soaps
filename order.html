@@ -210,9 +210,9 @@
         function calculateProceduralShipping(subtotal) {
             if (subtotal === 0) return 0;
             if (subtotal >= 75) return 0;
-            if (subtotal >= 40) return 4.50;
-            if (subtotal >= 20) return 7.50;
-            return 12.00;
+            if (subtotal >= 40) return 0;
+            if (subtotal >= 20) return 1;
+            return 0.50;
         }
 
         function renderCheckoutSummary() {
