@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout & Orders | Foamy Soaps</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%232E3E33'/><path d='M32 12C32 12 18 25 18 36C18 43.732 24.268 50 32 50C39.732 50 46 43.732 46 36C46 25 32 12 32 12Z' fill='%23FBF9F5'/><path d='M32 20V42M32 30L39 24M32 35L25 29' stroke='%23C88A58' stroke-width='2.5' stroke-linecap='round'/></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2E3E33;
+            --primary-light: #485E4F;
+            --accent: #C88A58;
+            --accent-light: #EFE4DC;
+            --bg-color: #FBF9F5;
+            --surface-color: #FFFFFF;
+            --text-color: #222924;
+            --text-muted: #5C655E;
+            --border-color: #E6E1D7;
+            --shadow-sm: 0 4px 14px rgba(46, 62, 51, 0.04);
+            --shadow-md: 0 12px 30px rgba(46, 62, 51, 0.08);
+            --shadow-lg: 0 24px 50px rgba(46, 62, 51, 0.12);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 28px;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0; padding: 0;
+            background-color: var(--bg-color); color: var(--text-color); line-height: 1.7;
+            background-image: radial-gradient(rgba(46, 62, 51, 0.03) 1px, transparent 0);
+            background-size: 28px 28px;
+            -webkit-font-smoothing: antialiased;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .brand-container { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+        .logo-icon { width: 42px; height: 42px; animation: logoEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; transition: var(--transition-smooth); filter: drop-shadow(0 4px 8px rgba(46,62,51,0.15)); }
+        .brand-container:hover .logo-icon { transform: rotate(12deg) scale(1.08); filter: drop-shadow(0 8px 16px rgba(46, 62, 51, 0.25)); }
+
+        @keyframes logoEntrance {
+            0% { opacity: 0; transform: scale(0.3) rotate(-180deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 18px 5%; background: rgba(251, 249, 245, 0.88);
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky; top: 0; z-index: 1000; box-shadow: var(--shadow-sm);
+        }
+
+        header h1 { margin: 0; font-family: 'Playfair Display', serif; font-size: 1.9rem; color: var(--primary); letter-spacing: -0.5px; }
+
+        nav { display: flex; gap: 28px; }
+        nav a { 
+            text-decoration: none; color: var(--text-color); font-weight: 500; font-size: 0.95rem;
+            position: relative; transition: color 0.3s ease; padding: 4px 0;
+        }
+        nav a::after {
+            content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0;
+            background-color: var(--accent); transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 2px;
+        }
+        nav a:hover::after, nav a.active::after { width: 100%; }
+        nav a:hover, nav a.active { color: var(--primary); font-weight: 600; }
+
+        .container { max-width: 1000px; margin: 60px auto 100px auto; padding: 0 24px; }
+        .page-header { text-align: center; margin-bottom: 50px; }
+        .page-header h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; color: var(--primary); margin: 0 0 12px 0; }
+        .page-header p { color: var(--text-muted); font-size: 1.05rem; }
+
+        .checkout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        
+        .card-box {
+            background: var(--surface-color); border: 1px solid var(--border-color);
+            padding: 36px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
+        }
+        .card-box h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--primary); margin: 0 0 24px 0; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-weight: 600; font-size: 0.88rem; margin-bottom: 6px; color: var(--primary); }
+        .form-group input, .form-group select {
+            width: 100%; padding: 12px 16px; border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm); font-family: inherit; font-size: 0.95rem;
+            background: var(--bg-color); box-sizing: border-box; transition: var(--transition-smooth);
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none; border-color: var(--primary); background: #fff;
+        }
+
+        .summary-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; color: var(--text-muted); }
+        .summary-total { display: flex; justify-content: space-between; font-size: 1.25rem; font-weight: 700; color: var(--primary); border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 16px; }
+
+        .place-order-btn {
+            width: 100%; background: var(--primary); color: #FFFFFF; padding: 16px;
+            border: none; border-radius: 30px; font-weight: 600; font-size: 1rem; cursor: pointer;
+            transition: var(--transition-smooth); box-shadow: 0 6px 18px rgba(46, 62, 51, 0.25);
+            margin-top: 24px; font-family: inherit;
+        }
+        .place-order-btn:hover { background: #1F2C24; transform: translateY(-2px); box-shadow: 0 10px 24px rgba(46, 62, 51, 0.35); }
+
+        .history-section { margin-top: 70px; }
+        .history-section h3 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--primary); margin-bottom: 24px; text-align: center; }
+        
+        .order-card {
+            background: var(--surface-color); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); padding: 24px; margin-bottom: 20px;
+            box-shadow: var(--shadow-sm); transition: var(--transition-smooth);
+        }
+        .order-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .order-meta { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 12px; font-weight: 600; color: var(--primary); }
+        .order-items-list { list-style: none; padding: 0; margin: 0 0 12px 0; color: var(--text-muted); font-size: 0.92rem; }
+        .order-items-list li { display: flex; justify-content: space-between; padding: 4px 0; }
+
+        @media(max-width: 850px) {
+            header { padding: 16px 20px; }
+            nav { gap: 16px; }
+            .checkout-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="brand-container">
+            <svg class="logo-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="30" fill="#2E3E33"/>
+                <path d="M32 12C32 12 18 25 18 36C18 43.732 24.268 50 32 50C39.732 50 46 43.732 46 36C46 25 32 12 32 12Z" fill="#FBF9F5"/>
+                <path d="M32 20V42M32 30L39 24M32 35L25 29" stroke="#C88A58" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <h1>Foamy Soaps</h1>
+        </a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="soaps.html">Our Soaps</a>
+            <a href="faq.html">FAQ</a>
+            <a href="order.html" class="active">Order</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Complete Your Order</h2>
+            <p>Review your items, enter shipping details, and manage your past order history.</p>
+        </div>
+
+        <div class="checkout-grid">
+            <!-- Shipping & Details Form -->
+            <div class="card-box">
+                <h3>Shipping Information</h3>
+                <form id="checkout-form" onsubmit="handlePlaceOrder(event)">
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" required placeholder="Jane Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" required placeholder="jane@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Shipping Address</label>
+                        <input type="text" id="address" required placeholder="123 Botanicals Way">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City & Postal Code</label>
+                        <input type="text" id="city" required placeholder="Montreal, H3Z 2Y7">
+                    </div>
+                    <button type="submit" class="place-order-btn">Submit Order</button>
+                </form>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="card-box">
+                <h3>Current Order Summary</h3>
+                <div id="checkout-items"></div>
+                <div class="summary-item" style="margin-top: 20px;">
+                    <span>Subtotal</span>
+                    <span id="summary-subtotal">$0.00</span>
+                </div>
+                <div class="summary-item">
+                    <span>Shipping</span>
+                    <span id="summary-shipping">$0.00</span>
+                </div>
+                <div class="summary-total">
+                    <span>Total</span>
+                    <span id="summary-total">$0.00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Past Order History -->
+        <div class="history-section">
+            <h3>Past Orders History</h3>
+            <div id="past-orders-container"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Foamy Soaps. Handcrafted with Natural Botanicals in Canada. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('foamy_cart')) || [];
+        let orders = JSON.parse(localStorage.getItem('foamy_orders')) || [];
+
+        function renderCheckoutSummary() {
+            const itemsContainer = document.getElementById('checkout-items');
+            itemsContainer.innerHTML = '';
+
+            if (cart.length === 0) {
+                itemsContainer.innerHTML = '<p style="color: var(--text-muted);">Your cart is empty. <a href="soaps.html" style="color: var(--accent);">Shop soaps now</a>.</p>';
+                document.getElementById('summary-subtotal').innerText = '$0.00';
+                document.getElementById('summary-shipping').innerText = '$0.00';
+                document.getElementById('summary-total').innerText = '$0.00';
+                return;
+            }
+
+            let subtotal = 0;
+            cart.forEach(item => {
+                let itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                itemsContainer.innerHTML += `
+                    <div class="summary-item">
+                        <span>${item.name} (x${item.quantity})</span>
+                        <span>$${itemTotal.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+
+            let shipping = subtotal >= 50 ? 0 : 8.00;
+            let total = subtotal + shipping;
+
+            document.getElementById('summary-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('summary-shipping').innerText = shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`;
+            document.getElementById('summary-total').innerText = `$${total.toFixed(2)}`;
+        }
+
+        function handlePlaceOrder(e) {
+            e.preventDefault();
+            if (cart.length === 0) {
+                alert('Your cart is empty! Add items from Our Soaps before checking out.');
+                return;
+            }
+
+            let subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            let shipping = subtotal >= 50 ? 0 : 8.00;
+            let total = subtotal + shipping;
+
+            let newOrder = {
+                id: 'FS-' + Math.floor(100000 + Math.random() * 900000),
+                date: new Date().toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' }),
+                customer: document.getElementById('fullname').value,
+                items: cart,
+                total: total
+            };
+
+            orders.unshift(newOrder);
+            localStorage.setItem('foamy_orders', JSON.stringify(orders));
+            
+            // Clear cart
+            cart = [];
+            localStorage.removeItem('foamy_cart');
+
+            alert('Thank you! Your order has been placed successfully.');
+            document.getElementById('checkout-form').reset();
+            renderCheckoutSummary();
+            renderOrderHistory();
+        }
+
+        function renderOrderHistory() {
+            const historyContainer = document.getElementById('past-orders-container');
+            historyContainer.innerHTML = '';
+
+            if (orders.length === 0) {
+                historyContainer.innerHTML = '<div class="card-box" style="text-align: center;"><p style="color: var(--text-muted); margin: 0;">No previous orders found.</p></div>';
+                return;
+            }
+
+            orders.forEach(order => {
+                let itemsList = order.items.map(i => `<li><span>${i.name} x${i.quantity}</span><span>$${(i.price * i.quantity).toFixed(2)}</span></li>`).join('');
+                historyContainer.innerHTML += `
+                    <div class="order-card">
+                        <div class="order-meta">
+                            <span>Order #${order.id} — ${order.date}</span>
+                            <span style="color: var(--accent);">Status: Processing</span>
+                        </div>
+                        <ul class="order-items-list">
+                            ${itemsList}
+                        </ul>
+                        <div style="display: flex; justify-content: space-between; font-weight: 700; color: var(--primary); border-top: 1px dashed var(--border-color); padding-top: 10px;">
+                            <span>Customer: ${order.customer}</span>
+                            <span>Total Paid: $${order.total.toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        renderCheckoutSummary();
+        renderOrderHistory();
+    </script>
+</body>
+</html>

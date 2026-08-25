@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | Foamy Soaps</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%232E3E33'/><path d='M32 12C32 12 18 25 18 36C18 43.732 24.268 50 32 50C39.732 50 46 43.732 46 36C46 25 32 12 32 12Z' fill='%23FBF9F5'/><path d='M32 20V42M32 30L39 24M32 35L25 29' stroke='%23C88A58' stroke-width='2.5' stroke-linecap='round'/></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2E3E33;
+            --primary-light: #485E4F;
+            --accent: #C88A58;
+            --accent-light: #EFE4DC;
+            --bg-color: #FBF9F5;
+            --surface-color: #FFFFFF;
+            --text-color: #222924;
+            --text-muted: #5C655E;
+            --border-color: #E6E1D7;
+            --shadow-sm: 0 4px 14px rgba(46, 62, 51, 0.04);
+            --shadow-md: 0 12px 30px rgba(46, 62, 51, 0.08);
+            --shadow-lg: 0 24px 50px rgba(46, 62, 51, 0.12);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 28px;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0; padding: 0;
+            background-color: var(--bg-color); color: var(--text-color); line-height: 1.7;
+            background-image: radial-gradient(rgba(46, 62, 51, 0.03) 1px, transparent 0);
+            background-size: 28px 28px;
+            -webkit-font-smoothing: antialiased;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .brand-container { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+        .logo-icon { width: 42px; height: 42px; animation: logoEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; transition: var(--transition-smooth); filter: drop-shadow(0 4px 8px rgba(46,62,51,0.15)); }
+        .brand-container:hover .logo-icon { transform: rotate(12deg) scale(1.08); filter: drop-shadow(0 8px 16px rgba(46, 62, 51, 0.25)); }
+
+        @keyframes logoEntrance {
+            0% { opacity: 0; transform: scale(0.3) rotate(-180deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 18px 5%; background: rgba(251, 249, 245, 0.88);
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky; top: 0; z-index: 1000; box-shadow: var(--shadow-sm);
+        }
+
+        header h1 { margin: 0; font-family: 'Playfair Display', serif; font-size: 1.9rem; color: var(--primary); letter-spacing: -0.5px; }
+
+        nav { display: flex; gap: 28px; }
+
+        nav a { 
+            text-decoration: none; color: var(--text-color); font-weight: 500; font-size: 0.95rem;
+            position: relative; transition: color 0.3s ease; padding: 4px 0;
+        }
+
+        nav a::after {
+            content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0;
+            background-color: var(--accent); transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 2px;
+        }
+
+        nav a:hover::after, nav a.active::after { width: 100%; }
+        nav a:hover, nav a.active { color: var(--primary); font-weight: 600; }
+        
+        .faq-container { max-width: 860px; margin: 60px auto 100px auto; padding: 0 24px; }
+        
+        .faq-container h2 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 3rem; 
+            color: var(--primary); 
+            text-align: center; 
+            margin-bottom: 50px; 
+            letter-spacing: -0.5px;
+        }
+        
+        .faq-box { 
+            background: var(--surface-color); 
+            padding: 36px; 
+            border-radius: var(--radius-md); 
+            margin-bottom: 24px; 
+            box-shadow: var(--shadow-sm); 
+            border: 1px solid var(--border-color);
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .faq-box:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(72, 94, 79, 0.25);
+        }
+
+        .faq-box h3 { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--primary); 
+            margin-top: 0; 
+            font-size: 1.4rem; 
+            margin-bottom: 12px;
+            line-height: 1.35;
+        }
+
+        .faq-box p { margin-bottom: 0; color: var(--text-muted); font-size: 1.02rem; line-height: 1.75; }
+        
+        footer { 
+            text-align: center; 
+            padding: 48px 24px; 
+            background: var(--surface-color); 
+            border-top: 1px solid var(--border-color); 
+            margin-top: 80px; 
+            color: var(--text-muted); 
+            font-size: 0.9rem; 
+        }
+
+        @media(max-width: 850px) {
+            header { padding: 16px 20px; }
+            nav { gap: 16px; }
+            .faq-container h2 { font-size: 2.3rem; }
+            .faq-box { padding: 26px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="brand-container">
+            <svg class="logo-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="30" fill="#2E3E33"/>
+                <path d="M32 12C32 12 18 25 18 36C18 43.732 24.268 50 32 50C39.732 50 46 43.732 46 36C46 25 32 12 32 12Z" fill="#FBF9F5"/>
+                <path d="M32 20V42M32 30L39 24M32 35L25 29" stroke="#C88A58" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <h1>Foamy Soaps</h1>
+        </a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="soaps.html">Our Soaps</a>
+            <a href="faq.html" class="active">FAQ</a>
+            <a href="order.html">Order</a>
+        </nav>
+    </header>
+
+    <div class="faq-container">
+        <h2>Frequently Asked Questions</h2>
+
+        <div class="faq-box">
+            <h3>Are Foamy Soaps good for sensitive skin?</h3>
+            <p>Yes! Our Butter Silk line and Butter Soaps are specifically formulated with nourishing almond oil and oatmeal to calm and protect irritated or sensitive skin types.</p>
+        </div>
+
+        <div class="faq-box">
+            <h3>What makes the Heavy Duty soap different?</h3>
+            <p>Our new Heavy Duty soap features an advanced natural exfoliator formula designed to deeply clean and scrub away dirt while keeping skin healthy.</p>
+        </div>
+
+        <div class="faq-box">
+            <h3>Where are your soaps made?</h3>
+            <p>All of our soaps are proudly handcrafted in Canada in small batches to ensure high quality and freshness.</p>
+        </div>
+
+        <div class="faq-box">
+            <h3>How long does shipping take?</h3>
+            <p>Orders are processed and shipped within 2–3 business days. Standard delivery across Canada typically takes 3–7 business days depending on your location.</p>
+        </div>
+
+        <div class="faq-box">
+            <h3>How should I store my natural soap bars?</h3>
+            <p>To make your handcrafted soap last as long as possible, keep it on a well-draining soap dish away from direct streams of running water between uses.</p>
+        </div>
+
+        <div class="faq-box">
+            <h3>Can I pick up my order locally?</h3>
+            <p>Yes! Local pickup options are available during checkout. Select the pickup preference, and we will email you when your order is ready.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Foamy Soaps. Handcrafted with Natural Botanicals in Canada. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

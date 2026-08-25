@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foamy Soaps | Handcrafted Luxury Natural Skincare</title>
+    
+    <!-- Standard Favicon Fallback -->
+    <link id="dynamic-favicon" rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%232E3E33'/></svg>">
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2E3E33;
+            --primary-light: #485E4F;
+            --accent: #C88A58;
+            --accent-light: #EFE4DC;
+            --bg-color: #FBF9F5;
+            --surface-color: #FFFFFF;
+            --text-color: #222924;
+            --text-muted: #5C655E;
+            --border-color: #E6E1D7;
+            --shadow-sm: 0 4px 14px rgba(46, 62, 51, 0.04);
+            --shadow-md: 0 12px 30px rgba(46, 62, 51, 0.08);
+            --shadow-lg: 0 24px 50px rgba(46, 62, 51, 0.12);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 28px;
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0; 
+            padding: 0;
+            background-color: var(--bg-color); 
+            background-image: radial-gradient(rgba(46, 62, 51, 0.03) 1px, transparent 0);
+            background-size: 28px 28px;
+            color: var(--text-color); 
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition-smooth);
+        }
+
+        .reveal-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .announcement-bar {
+            background: linear-gradient(135deg, #233127 0%, #2E3E33 100%);
+            color: #FAF6F0; 
+            text-align: center;
+            padding: 10px 16px; 
+            font-size: 0.82rem; 
+            font-weight: 600; 
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            animation: logoEntrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transition: var(--transition-smooth);
+            filter: drop-shadow(0 4px 8px rgba(46,62,51,0.15));
+        }
+
+        .brand-container:hover .logo-icon {
+            transform: rotate(12deg) scale(1.08);
+            filter: drop-shadow(0 8px 16px rgba(46, 62, 51, 0.25));
+        }
+
+        @keyframes logoEntrance {
+            0% { opacity: 0; transform: scale(0.3) rotate(-180deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+
+        header {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding: 18px 5%; 
+            background: rgba(251, 249, 245, 0.88); 
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+            box-shadow: var(--shadow-sm);
+        }
+
+        header h1 { 
+            margin: 0; 
+            font-family: 'Playfair Display', serif; 
+            font-size: 1.9rem; 
+            color: var(--primary); 
+            letter-spacing: -0.5px;
+        }
+
+        nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        nav a { 
+            text-decoration: none; 
+            color: var(--text-color); 
+            font-weight: 500; 
+            font-size: 0.95rem;
+            position: relative; 
+            transition: color 0.3s ease;
+            padding: 4px 0;
+        }
+
+        nav a::after {
+            content: ''; 
+            position: absolute; 
+            width: 0; 
+            height: 2px; 
+            bottom: 0; 
+            left: 0;
+            background-color: var(--accent); 
+            transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 2px;
+        }
+
+        nav a:hover::after, nav a.active::after { width: 100%; }
+        nav a:hover, nav a.active { color: var(--primary); font-weight: 600; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary); 
+            color: #FFFFFF;
+            padding: 14px 34px; 
+            text-decoration: none; 
+            border-radius: 30px; 
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+            transition: var(--transition-smooth); 
+            box-shadow: 0 6px 20px rgba(46, 62, 51, 0.25);
+            border: 1px solid transparent;
+        }
+
+        .btn:hover { 
+            background: #1F2C24; 
+            transform: translateY(-3px); 
+            box-shadow: 0 12px 28px rgba(46, 62, 51, 0.35); 
+        }
+
+        .interactive-showcase {
+            max-width: 1200px;
+            margin: 40px auto 100px auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            position: relative;
+        }
+
+        .sticky-wrapper {
+            position: sticky;
+            top: 130px;
+            height: calc(100vh - 180px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sticky-wrapper img {
+            width: 100%;
+            max-width: 460px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.8s ease;
+            transform: scale(0.92);
+            object-fit: cover;
+            border: 8px solid rgba(255,255,255,0.7);
+        }
+
+        .facts-container {
+            display: flex;
+            flex-direction: column;
+            gap: 140px;
+            padding: 60px 0;
+        }
+
+        .fact-card {
+            background: var(--surface-color);
+            padding: 44px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            opacity: 0.25;
+            transform: translateY(40px) scale(0.96);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fact-card.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            border-color: rgba(72, 94, 79, 0.25);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .fact-tag {
+            background: rgba(200, 138, 88, 0.12); 
+            color: var(--accent); 
+            padding: 6px 14px; 
+            font-size: 0.75rem;
+            border-radius: 20px; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 1.2px;
+            display: inline-block; 
+            margin-bottom: 18px;
+        }
+
+        .fact-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.1rem;
+            color: var(--primary);
+            margin: 0 0 16px 0;
+            line-height: 1.25;
+        }
+
+        .fact-card p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin: 0;
+            line-height: 1.75;
+        }
+
+        .story-section {
+            background: var(--surface-color); 
+            padding: 100px 24px; 
+            text-align: center;
+            border-top: 1px solid var(--border-color); 
+            border-bottom: 1px solid var(--border-color); 
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .story-container { max-width: 960px; margin: 0 auto; }
+        
+        .story-container h2 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2.6rem; 
+            color: var(--primary); 
+            margin-top: 0;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .story-container p { 
+            color: var(--text-muted); 
+            font-size: 1.1rem; 
+            line-height: 1.85; 
+            max-width: 800px;
+            margin: 0 auto 50px auto;
+        }
+
+        .home-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 24px;
+        }
+
+        .home-gallery img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-sm);
+            border: 4px solid var(--surface-color);
+        }
+
+        .home-gallery img:hover {
+            transform: scale(1.04) translateY(-6px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .container { max-width: 1140px; margin: 0 auto 100px auto; padding: 0 24px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
+
+        .feature-card {
+            background: var(--surface-color); 
+            padding: 44px 32px; 
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm); 
+            transition: var(--transition-smooth);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            position: relative;
+        }
+
+        .feature-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: var(--shadow-md); 
+            border-color: rgba(72, 94, 79, 0.25);
+        }
+
+        .feature-card h3 { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--primary); 
+            font-size: 1.5rem; 
+            margin-bottom: 16px; 
+            margin-top: 0;
+        }
+
+        .feature-card p { color: var(--text-muted); font-size: 0.98rem; margin: 0; }
+
+        footer { 
+            text-align: center; 
+            padding: 48px 24px; 
+            background: var(--surface-color); 
+            border-top: 1px solid var(--border-color); 
+            color: var(--text-muted); 
+            font-size: 0.9rem; 
+        }
+
+        @media(max-width: 850px) {
+            header { padding: 16px 20px; }
+            nav { gap: 16px; }
+            nav a { font-size: 0.88rem; }
+            .interactive-showcase { grid-template-columns: 1fr; gap: 40px; }
+            .sticky-wrapper { position: relative; top: 0; height: auto; }
+            .facts-container { gap: 40px; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="announcement-bar">
+        Pure Botanical Formulas • Handcrafted in Canada
+    </div>
+
+    <header>
+        <a href="index.html" class="brand-container">
+            <svg class="logo-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="30" fill="#2E3E33"/>
+                <path d="M32 12C32 12 18 25 18 36C18 43.732 24.268 50 32 50C39.732 50 46 43.732 46 36C46 25 32 12 32 12Z" fill="#FBF9F5"/>
+                <path d="M32 20V42M32 30L39 24M32 35L25 29" stroke="#C88A58" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <h1>Foamy Soaps</h1>
+        </a>
+        <nav>
+            <a href="index.html" class="active">Home</a>
+            <a href="soaps.html">Our Soaps</a>
+            <a href="faq.html">FAQ</a>
+            <a href="order.html">Order</a>
+        </nav>
+    </header>
+
+    <div class="interactive-showcase">
+        <div class="sticky-wrapper">
+            <img src="IMG_20260825_130627255.jpg" alt="Butter Silk Lineup Soap" id="butter-silk-img">
+        </div>
+
+        <div class="facts-container">
+            <div class="fact-card active" data-scale="1" data-shadow="0 24px 48px rgba(46, 62, 51, 0.18)">
+                <span class="fact-tag">🌾 Botanical Luxury</span>
+                <h3>The Butter Silk Lineup</h3>
+                <p>Immerse your skin in pure, velvet luxury. Expertly handcrafted in small batches using ultra-nourishing almond oil and botanical extracts, our Butter Silk line cleanses, conditions, and deeply hydrates for an unmatched radiant glow.</p>
+                <div style="margin-top: 24px;">
+                    <a href="soaps.html" class="btn">Explore All Soaps</a>
+                </div>
+            </div>
+
+            <div class="fact-card" data-scale="1.06" data-shadow="0 24px 48px rgba(200, 138, 88, 0.22)">
+                <span class="fact-tag">🌰 Cold-Pressed Nutrient</span>
+                <h3>Pure Sweet Almond Oil</h3>
+                <p>Formulated with premium cold-pressed sweet almond oil to restore natural elasticity, seal in deep moisture, and leave skin soft with a radiant glow.</p>
+            </div>
+
+            <div class="fact-card" data-scale="1.12" data-shadow="0 28px 56px rgba(46, 62, 51, 0.28)">
+                <span class="fact-tag">Soothing Botanical Relief</span>
+                <h3>Soothing Irritation Relief</h3>
+                <p>Enriched with micro-milled natural colloidal oatmeal, effectively shielding dry barriers and calming irritation or redness for sensitive skin types.</p>
+            </div>
+
+            <div class="fact-card" data-scale="1.04" data-shadow="0 20px 40px rgba(0,0,0,0.12)">
+                <span class="fact-tag">🇨🇦 Earth-Conscious Craft</span>
+                <h3>Canadian Handcrafted Quality</h3>
+                <p>100% handcrafted in Canada with zero synthetic additives, harsh sulfates, or artificial detergents—pure botanical luxury in every bar.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="story-section reveal-on-scroll">
+        <div class="story-container">
+            <h2>Rooted in Purity & Craftsmanship</h2>
+            <p>At Foamy Soaps, we believe that daily skincare should be an act of mindful luxury. Every single bar is meticulously formulated in Canada to protect against modern environmental stressors, calm sensitive skin types, and provide a rich, creamy lather free from synthetic additives or harsh chemicals.</p>
+            
+            <div class="home-gallery">
+                <img src="IMG_20260825_130627255.jpg" alt="Butter Silk Lineup">
+                <img src="IMG_20260622_215309677.jpg" alt="Heavy Duty Soap">
+                <img src="IMG_20260825_132402625.jpg" alt="Mini Soaps">
+                <img src="IMG_20260622_212643099.jpg" alt="Butter Soaps">
+            </div>
+        </div>
+    </section>
+
+    <div class="container reveal-on-scroll">
+        <div class="features">
+            <div class="feature-card">
+                <h3>100% All-Natural</h3>
+                <p>Formulated entirely with earth-derived ingredients, sustainable oils, and organic plant extracts.</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 12px;">💧</div>
+                <h3>Deeply Skin-Soothing</h3>
+                <p>Enriched with pure almond oil to lock in natural moisture and protect dry skin barriers.</p>
+            </div>
+            <div class="feature-card">
+                <div style="font-size: 2rem; margin-bottom: 12px;">🌾</div>
+                <h3>Advanced Irritation Relief</h3>
+                <p>Infused with natural colloidal oatmeal to gently calm redness, eczema-prone spots, and irritation.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Foamy Soaps. Handcrafted with Natural Botanicals in Canada. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Procedurally generate favicon using HTML5 Canvas matching SVG brand logo
+        function generateProceduralFavicon() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64;
+            canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+
+            // Outer dark green circle
+            ctx.beginPath();
+            ctx.arc(32, 32, 30, 0, Math.PI * 2);
+            ctx.fillStyle = '#2E3E33';
+            ctx.fill();
+
+            // Inner cream teardrop/droplet
+            ctx.beginPath();
+            ctx.moveTo(32, 12);
+            ctx.bezierCurveTo(32, 12, 18, 25, 18, 36);
+            ctx.arc(32, 36, 14, Math.PI, 0, true);
+            ctx.bezierCurveTo(46, 25, 32, 12, 32, 12);
+            ctx.fillStyle = '#FBF9F5';
+            ctx.fill();
+
+            // Accent details (leaf stems in terracotta)
+            ctx.strokeStyle = '#C88A58';
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = 'round';
+
+            // Central vertical line
+            ctx.beginPath();
+            ctx.moveTo(32, 20);
+            ctx.lineTo(32, 42);
+            ctx.stroke();
+
+            // Right branch
+            ctx.beginPath();
+            ctx.moveTo(32, 30);
+            ctx.lineTo(39, 24);
+            ctx.stroke();
+
+            // Left branch
+            ctx.beginPath();
+            ctx.moveTo(32, 35);
+            ctx.lineTo(25, 29);
+            ctx.stroke();
+
+            // Update DOM favicon link element with generated base64 image
+            const faviconLink = document.getElementById('dynamic-favicon');
+            if (faviconLink) {
+                faviconLink.href = canvas.toDataURL('image/png');
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Generate dynamic favicon on page load
+            generateProceduralFavicon();
+
+            const sectionObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(section => {
+                sectionObserver.observe(section);
+            });
+
+            const factCards = document.querySelectorAll('.fact-card');
+            const productImage = document.getElementById('butter-silk-img');
+
+            const factObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        factCards.forEach(card => card.classList.remove('active'));
+                        entry.target.classList.add('active');
+
+                        const targetScale = entry.target.getAttribute('data-scale');
+                        const targetShadow = entry.target.getAttribute('data-shadow');
+                        
+                        if (productImage) {
+                            productImage.style.transform = `scale(${targetScale})`;
+                            productImage.style.boxShadow = targetShadow;
+                        }
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '-30% 0px -30% 0px',
+                threshold: 0.5
+            });
+
+            factCards.forEach(card => factObserver.observe(card));
+        });
+    </script>
+</body>
+</html>
