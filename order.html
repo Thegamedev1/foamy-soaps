@@ -78,7 +78,7 @@
         .page-header h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; color: var(--primary); margin: 0 0 12px 0; }
         .page-header p { color: var(--text-muted); font-size: 1.05rem; }
 
-        .checkout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .checkout-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; }
         
         .card-box {
             background: var(--surface-color); border: 1px solid var(--border-color);
@@ -86,15 +86,19 @@
         }
         .card-box h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--primary); margin: 0 0 24px 0; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
 
-        .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; font-weight: 600; font-size: 0.88rem; margin-bottom: 6px; color: var(--primary); }
-        .form-group input, .form-group select {
-            width: 100%; padding: 12px 16px; border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm); font-family: inherit; font-size: 0.95rem;
-            background: var(--bg-color); box-sizing: border-box; transition: var(--transition-smooth);
+        .google-form-wrapper {
+            width: 100%;
+            height: 750px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: #fff;
         }
-        .form-group input:focus, .form-group select:focus {
-            outline: none; border-color: var(--primary); background: #fff;
+
+        .google-form-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         .summary-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; color: var(--text-muted); }
@@ -121,10 +125,13 @@
         .order-items-list { list-style: none; padding: 0; margin: 0 0 12px 0; color: var(--text-muted); font-size: 0.92rem; }
         .order-items-list li { display: flex; justify-content: space-between; padding: 4px 0; }
 
+        footer { text-align: center; padding: 48px 24px; background: var(--surface-color); border-top: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.9rem; margin-top: 60px; }
+
         @media(max-width: 850px) {
             header { padding: 16px 20px; }
             nav { gap: 16px; }
             .checkout-grid { grid-template-columns: 1fr; }
+            .google-form-wrapper { height: 850px; }
         }
     </style>
 </head>
@@ -150,50 +157,38 @@
     <div class="container">
         <div class="page-header">
             <h2>Complete Your Order</h2>
-            <p>Review your items, enter shipping details, and manage your past order history.</p>
+            <p>Fill out the order form, confirm your summary, and manage your past order history.</p>
         </div>
 
         <div class="checkout-grid">
-            <!-- Shipping & Details Form -->
+            <!-- Google Form Embedded in Card -->
             <div class="card-box">
-                <h3>Shipping Information</h3>
-                <form id="checkout-form" onsubmit="handlePlaceOrder(event)">
-                    <div class="form-group">
-                        <label for="fullname">Full Name</label>
-                        <input type="text" id="fullname" required placeholder="Jane Doe">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" required placeholder="jane@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Shipping Address</label>
-                        <input type="text" id="address" required placeholder="123 Botanicals Way">
-                    </div>
-                    <div class="form-group">
-                        <label for="city">City & Postal Code</label>
-                        <input type="text" id="city" required placeholder="Montreal, H3Z 2Y7">
-                    </div>
-                    <button type="submit" class="place-order-btn">Submit Order</button>
-                </form>
+                <h3>Order & Shipping Details</h3>
+                <div class="google-form-wrapper">
+                    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSernzHVE03ozTI9Izzr6VkovsBSa7Wga6kBwT47xsnw_BQiSg/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+                </div>
             </div>
 
-            <!-- Order Summary -->
-            <div class="card-box">
-                <h3>Current Order Summary</h3>
-                <div id="checkout-items"></div>
-                <div class="summary-item" style="margin-top: 20px;">
-                    <span>Subtotal</span>
-                    <span id="summary-subtotal">$0.00</span>
+            <!-- Order Summary & Direct Place Order Trigger -->
+            <div class="card-box" style="display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <h3>Current Order Summary</h3>
+                    <div id="checkout-items"></div>
+                    <div class="summary-item" style="margin-top: 20px;">
+                        <span>Subtotal</span>
+                        <span id="summary-subtotal">$0.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Shipping (Procedural)</span>
+                        <span id="summary-shipping">$0.00</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span id="summary-total">$0.00</span>
+                    </div>
                 </div>
-                <div class="summary-item">
-                    <span>Shipping</span>
-                    <span id="summary-shipping">$0.00</span>
-                </div>
-                <div class="summary-total">
-                    <span>Total</span>
-                    <span id="summary-total">$0.00</span>
-                </div>
+
+                <button type="button" class="place-order-btn" onclick="handlePlaceOrder()">Complete & Record Order</button>
             </div>
         </div>
 
@@ -211,6 +206,14 @@
     <script>
         let cart = JSON.parse(localStorage.getItem('foamy_cart')) || [];
         let orders = JSON.parse(localStorage.getItem('foamy_orders')) || [];
+
+        function calculateProceduralShipping(subtotal) {
+            if (subtotal === 0) return 0;
+            if (subtotal >= 75) return 0;
+            if (subtotal >= 40) return 4.50;
+            if (subtotal >= 20) return 7.50;
+            return 12.00;
+        }
 
         function renderCheckoutSummary() {
             const itemsContainer = document.getElementById('checkout-items');
@@ -236,7 +239,7 @@
                 `;
             });
 
-            let shipping = subtotal >= 50 ? 0 : 8.00;
+            let shipping = calculateProceduralShipping(subtotal);
             let total = subtotal + shipping;
 
             document.getElementById('summary-subtotal').innerText = `$${subtotal.toFixed(2)}`;
@@ -244,34 +247,38 @@
             document.getElementById('summary-total').innerText = `$${total.toFixed(2)}`;
         }
 
-        function handlePlaceOrder(e) {
-            e.preventDefault();
+        function handlePlaceOrder() {
             if (cart.length === 0) {
-                alert('Your cart is empty! Add items from Our Soaps before checking out.');
+                alert('Your cart is empty! Add items from Our Soaps before completing your order.');
                 return;
             }
 
             let subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            let shipping = subtotal >= 50 ? 0 : 8.00;
+            let shipping = calculateProceduralShipping(subtotal);
             let total = subtotal + shipping;
+
+            let now = new Date();
+            let deliveryDate = new Date(now);
+            deliveryDate.setDate(now.getDate() + 5);
 
             let newOrder = {
                 id: 'FS-' + Math.floor(100000 + Math.random() * 900000),
-                date: new Date().toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' }),
-                customer: document.getElementById('fullname').value,
+                orderTimestamp: now.getTime(),
+                date: now.toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' }),
+                estimatedDelivery: deliveryDate.toLocaleDateString('en-CA', { year: 'numeric', month: 'short', day: 'numeric' }),
                 items: cart,
+                subtotal: subtotal,
+                shipping: shipping,
                 total: total
             };
 
             orders.unshift(newOrder);
             localStorage.setItem('foamy_orders', JSON.stringify(orders));
             
-            // Clear cart
             cart = [];
             localStorage.removeItem('foamy_cart');
 
-            alert('Thank you! Your order has been placed successfully.');
-            document.getElementById('checkout-form').reset();
+            alert('Order logged to your history! Please make sure to submit the Google Form as well.');
             renderCheckoutSummary();
             renderOrderHistory();
         }
@@ -285,20 +292,36 @@
                 return;
             }
 
+            const currentTimestamp = new Date().getTime();
+            const fiveDaysInMs = 5 * 24 * 60 * 60 * 1000;
+
             orders.forEach(order => {
                 let itemsList = order.items.map(i => `<li><span>${i.name} x${i.quantity}</span><span>$${(i.price * i.quantity).toFixed(2)}</span></li>`).join('');
+                
+                // Calculate if order is past the 5 day window
+                let orderTime = order.orderTimestamp || new Date(order.date).getTime();
+                let isDelayed = (currentTimestamp - orderTime) > fiveDaysInMs;
+
+                let statusText = isDelayed 
+                    ? '<span style="color: #c0392b; font-weight: 700;">Status: Delayed — Sorry for the delay, we are a small business</span>' 
+                    : '<span style="color: #2E3E33; font-weight: 700;">Status: Processed</span>';
+
+                let deliveryInfo = isDelayed 
+                    ? '<span style="color: #c0392b; font-size: 0.88rem; font-weight: 600;">Delivery delayed</span>' 
+                    : `<span style="color: var(--accent); font-size: 0.88rem; font-weight: 600;">Est. Delivery: ${order.estimatedDelivery}</span>`;
+
                 historyContainer.innerHTML += `
                     <div class="order-card">
                         <div class="order-meta">
                             <span>Order #${order.id} — ${order.date}</span>
-                            <span style="color: var(--accent);">Status: Processing</span>
+                            ${statusText}
                         </div>
                         <ul class="order-items-list">
                             ${itemsList}
                         </ul>
-                        <div style="display: flex; justify-content: space-between; font-weight: 700; color: var(--primary); border-top: 1px dashed var(--border-color); padding-top: 10px;">
-                            <span>Customer: ${order.customer}</span>
-                            <span>Total Paid: $${order.total.toFixed(2)}</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: var(--primary); border-top: 1px dashed var(--border-color); padding-top: 10px;">
+                            ${deliveryInfo}
+                            <span>Total Paid: $${order.total.toFixed(2)} (Incl. $${(order.shipping || 0).toFixed(2)} Shipping)</span>
                         </div>
                     </div>
                 `;
